@@ -1,0 +1,23 @@
+{
+  "name": "wp-stock-director",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "autoprefixer": "^10.4.19",
+    "bun-types": "latest",
+    "cssnano": "latest",
+    "gulp": "^5.0.0",
+    "gulp-postcss": "latest",
+    "gulp-rename": "^2.0.0",
+    "gulp-sass": "^5.1.0",
+    "gulp-sourcemaps": "^3.0.0",
+    "gulp-terser": "^2.1.0",
+    "sass": "^1.74.1"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "postcss": "latest"
+  }
+}
