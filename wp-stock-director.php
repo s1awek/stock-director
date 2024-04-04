@@ -20,13 +20,21 @@ function mws_enqueue_scripts($hook)
   }
 
   // Enqueue Vue.js from a CDN
-  wp_enqueue_script('vuejs', 'https://cdn.jsdelivr.net/npm/vue@2.6.14/dist/vue.min.js');
+  // Enqueue Vue.js from a CDN for production use
+  wp_enqueue_script('vuejs', 'https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.min.js', array(), '3.4.21', true);
+
 
   // Enqueue custom admin CSS
   wp_enqueue_style('mws-admin-css', plugins_url('admin/css/admin-style.css', __FILE__));
 
   // Enqueue custom admin JS
   wp_enqueue_script('mws-admin-js', plugins_url('admin/js/admin-script.min.js', __FILE__), array('vuejs'), '1.0.0', true);
+
+
+  wp_localize_script('mws-admin-js', 'mwsData', array(
+    'ajax_url' => admin_url('admin-ajax.php'),
+    'nonce' => wp_create_nonce('mws_nonce'),
+  ));
 }
 
 // Register settings page
@@ -47,7 +55,7 @@ function mws_register_settings_page()
 
 function mws_settings_page()
 {
-  echo '<div class="wrap"><h1>' . esc_html_e('Stock Status Settings', 'wp-stock-director') . '</h1></div>';
+  include plugin_dir_path(__FILE__) . 'admin/partials/settings-page.php';
 }
 
 // Load plugin text domain for translations
@@ -56,4 +64,24 @@ add_action('init', 'wp_stock_director_load_textdomain');
 function wp_stock_director_load_textdomain()
 {
   load_plugin_textdomain('wp-stock-director', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+}
+
+
+// Obsługa AJAX do zapisu ustawień
+add_action('wp_ajax_save_conditions', 'mws_save_conditions');
+function mws_save_conditions()
+{
+  // Sprawdzamy nonce dla bezpieczeństwa
+  check_ajax_referer('mws_nonce', 'nonce');
+
+  // Pobieramy dane przesłane przez AJAX
+  $conditions = isset($_POST['conditions']) ? $_POST['conditions'] : array();
+
+  // Tutaj dokonujemy zapisu do bazy danych, używając na przykład update_option()
+  update_option('mws_stock_conditions', $conditions);
+  $saved_conditions = get_option('mws_stock_conditions');
+  error_log(print_r($saved_conditions, true));
+
+  // Zwracamy odpowiedź
+  wp_send_json_success('Settings saved successfully.');
 }
