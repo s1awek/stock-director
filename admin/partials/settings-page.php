@@ -1,14 +1,27 @@
 <div class="wrap" id="wp-stock-director-settings">
   <h1><?php echo esc_html_e('Stock Status Settings', 'wp-stock-director'); ?></h1>
-  <div>
-    <label for="minQuantity"><?php echo esc_html_e('Minimum Quantity', 'wp-stock-director'); ?></label>
-    <input type="number" v-model="newCondition.minQuantity" readonly>
+  <div class="conditions-wrap">
+    <label for="minQuantity">
+      <span><?php echo esc_html_e('Minimum Quantity', 'wp-stock-director'); ?></span>
+      <input type="number" v-model="newCondition.minQuantity" readonly>
+    </label>
 
-    <label for="maxQuantity"><?php echo esc_html_e('Maximum Quantity', 'wp-stock-director'); ?></label>
-    <input type="number" v-model="newCondition.maxQuantity" id="maxQuantity">
 
-    <label for="message"><?php echo esc_html_e('Message', 'wp-stock-director'); ?></label>
-    <input type="text" v-model="newCondition.message">
+    <label for="maxQuantity">
+      <span>
+        <?php echo esc_html_e('Maximum Quantity', 'wp-stock-director'); ?>
+      </span>
+      <input type="number" v-model="newCondition.maxQuantity" id="maxQuantity">
+    </label>
+
+
+    <label for="message">
+      <span>
+        <?php echo esc_html_e('Message', 'wp-stock-director'); ?>
+      </span>
+      <textarea v-model="newCondition.message"></textarea>
+    </label>
+
 
     <button @click="addCondition" :disabled="!isValidNewCondition">
       <?php echo esc_html_e('Add Condition', 'wp-stock-director'); ?>

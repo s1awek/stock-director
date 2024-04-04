@@ -1,3 +1,10 @@
-body {
-  color: blue;
+.conditions-wrap {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 10px;
+  align-items: flex-start;
+  label {
+    display: flex;
+    flex-direction: column;
+  }
 }
