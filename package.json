@@ -6,12 +6,14 @@
     "autoprefixer": "^10.4.19",
     "bun-types": "latest",
     "cssnano": "latest",
+    "del": "^7.1.0",
     "gulp": "^5.0.0",
     "gulp-postcss": "latest",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-terser": "^2.1.0",
+    "gulp-zip": "^6.0.0",
     "sass": "^1.74.1"
   },
   "peerDependencies": {
