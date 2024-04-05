@@ -27,14 +27,27 @@ function mws_enqueue_scripts($hook)
   // Enqueue custom admin CSS
   wp_enqueue_style('mws-admin-css', plugins_url('admin/css/admin-style.css', __FILE__));
 
-  // Enqueue custom admin JS
+  // Pobierz zapisane warunki i zdekoduj JSON, jeśli to konieczne.
+  $saved_conditions = get_option('mws_stock_conditions', '[]');
+  //check type of $saved_conditions and if it is string, decode it
+  if (is_string($saved_conditions)) {
+    $saved_conditions = json_decode($saved_conditions, true);
+  }
+
+  // Rejestrowanie skryptu Vue.
   wp_enqueue_script('mws-admin-js', plugins_url('admin/js/admin-script.min.js', __FILE__), array('vuejs'), '1.0.0', true);
 
-
-  wp_localize_script('mws-admin-js', 'mwsData', array(
+  // Przygotowanie danych do przekazania do skryptu.
+  $script_data = array(
     'ajax_url' => admin_url('admin-ajax.php'),
     'nonce' => wp_create_nonce('mws_nonce'),
-  ));
+    'conditions' => $saved_conditions, // Teraz to będzie właściwa tablica PHP.
+  );
+  // Lokalizowanie danych (dla ustawień AJAX i nonce).
+  wp_localize_script('mws-admin-js', 'mwsData', $script_data);
+
+  // Dodanie danych warunków jako skryptu inline.
+  wp_add_inline_script('mws-admin-js', 'const initialConditions = ' . wp_json_encode($script_data['conditions']) . ';', 'before');
 }
 
 // Register settings page
@@ -76,12 +89,41 @@ function mws_save_conditions()
 
   // Pobieramy dane przesłane przez AJAX
   $conditions = isset($_POST['conditions']) ? $_POST['conditions'] : array();
+  //convert to array
+  $conditions = json_decode(stripslashes($conditions), true);
+  foreach ($conditions as $condition) {
+    if (function_exists('icl_register_string')) {
+      // Dla WPML
+      icl_register_string('wp-stock-director', 'Condition Message ' . $condition['minQuantity'] . '-' . $condition['maxQuantity'], $condition['message']);
+    } elseif (function_exists('pll_register_string')) {
+      // Dla Polylang
+      pll_register_string('Condition Message ' . $condition['minQuantity'] . '-' . $condition['maxQuantity'], $condition['message'], 'wp-stock-director');
+    }
+    // Nie dodajemy 'else', bo nie chcemy rejestrować ciągów, jeśli nie ma wtyczki do tłumaczeń.
+  }
 
   // Tutaj dokonujemy zapisu do bazy danych, używając na przykład update_option()
   update_option('mws_stock_conditions', $conditions);
   $saved_conditions = get_option('mws_stock_conditions');
-  error_log(print_r($saved_conditions, true));
+
 
   // Zwracamy odpowiedź
   wp_send_json_success('Settings saved successfully.');
+}
+
+//TODO: Look for better way to implement this function
+function mws_get_condition_message(
+  $min,
+  $max,
+  $message
+) {
+  if (function_exists('icl_t')) {
+    // Dla WPML
+    return icl_t('wp-stock-director', 'Condition Message ' . $min . '-' . $max, $message);
+  } elseif (function_exists('pll__')) {
+    // Dla Polylang
+    return pll__($message);
+  }
+  // Fallback dla sytuacji bez wtyczki do tłumaczeń
+  return $message;
 }

@@ -3,7 +3,7 @@ const { createApp, ref, computed, watch, nextTick } = Vue;
 const app = createApp({
   setup() {
     // Reactive references for conditions and a new condition form
-    const conditions = ref([]);
+    const conditions = ref(initialConditions || []);
     const newCondition = ref({
       minQuantity: 1,
       maxQuantity: null,
@@ -14,9 +14,11 @@ const app = createApp({
       if (currentConditions.length > 0) {
         const lastCondition = currentConditions[currentConditions.length - 1];
         newCondition.value.minQuantity = lastCondition.maxQuantity;
+      } else {
+        newCondition.value.minQuantity = 1; // Resetujemy do 1 jeśli nie ma żadnych warunków
       }
-    }, { deep: true });
-
+    }, { immediate: true });
+    console.log(mwsData);
     // Computed property to validate new condition
     const isValidNewCondition = computed(() => {
       const { minQuantity, maxQuantity, message } = newCondition.value;
