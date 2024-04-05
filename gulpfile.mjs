@@ -1,7 +1,9 @@
 
 // Wszystkie importy na samej górze pliku
 import gulp from 'gulp';
-import sass from 'gulp-sass';
+import dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
 import postcss from 'gulp-postcss';
 import autoprefixer from 'autoprefixer';
 import cssnano from 'cssnano';
@@ -83,7 +85,7 @@ function publicScripts() {
 }
 
 // Zadanie do budowania wersji do publikacji
-const buildForRelease = gulp.series(clean, copy, zipFiles);
+const dist = gulp.series(clean, copy, zipFiles);
 
 // Eksportujemy nowe zadanie, aby było dostępne z linii komend
 
@@ -97,7 +99,7 @@ function watchFiles() {
 }
 
 // Eksport funkcji jako pojedynczych eksportów
-export { adminStyles, adminScripts, publicStyles, publicScripts, watchFiles, buildForRelease };
+export { adminStyles, adminScripts, publicStyles, publicScripts, watchFiles, dist };
 
 // Domyślne zadanie Gulp
 const defaultTask = gulp.parallel(adminStyles, adminScripts, publicStyles, publicScripts, watchFiles);

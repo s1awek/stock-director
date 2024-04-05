@@ -150,6 +150,10 @@ add_filter('woocommerce_get_availability_text', 'mws_custom_availability_text', 
 
 function mws_custom_availability_text($availability, $product)
 {
+  // Najpierw sprawdzamy, czy zarządzanie stanem magazynowym jest włączone i czy produkt jest na stanie
+  if (!$product->managing_stock() || !$product->is_in_stock()) {
+    return $availability;
+  }
   // Pobieramy zapisane warunki
   $saved_conditions = get_option('mws_stock_conditions', '[]');
   // Dekodujemy JSON, jeśli to konieczne, sprawdź typ
