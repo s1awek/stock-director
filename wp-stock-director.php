@@ -26,26 +26,26 @@ function mws_enqueue_scripts($hook)
   // Enqueue custom admin CSS
   wp_enqueue_style('mws-admin-css', plugins_url('admin/css/admin-style.css', __FILE__));
 
-  // Pobierz zapisane warunki i zdekoduj JSON, jeśli to konieczne.
+  // Get saved conditions and decode JSON if necessary.
   $saved_conditions = get_option('mws_stock_conditions', '[]');
   //check type of $saved_conditions and if it is string, decode it
   if (is_string($saved_conditions)) {
     $saved_conditions = json_decode($saved_conditions, true);
   }
 
-  // Rejestrowanie skryptu Vue.
+  // Register Vue script.
   wp_enqueue_script('mws-admin-js', plugins_url('admin/js/admin-script.min.js', __FILE__), array('vuejs'), '1.0.0', true);
 
-  // Przygotowanie danych do przekazania do skryptu.
+  // Prepare data to pass to the script.
   $script_data = array(
     'ajax_url' => admin_url('admin-ajax.php'),
     'nonce' => wp_create_nonce('mws_nonce'),
-    'conditions' => $saved_conditions, // Teraz to będzie właściwa tablica PHP.
+    'conditions' => $saved_conditions, // Now it will be a proper PHP array.
   );
-  // Lokalizowanie danych (dla ustawień AJAX i nonce).
+  // Localize data (for AJAX settings and nonce).
   wp_localize_script('mws-admin-js', 'mwsData', $script_data);
 
-  // Dodanie danych warunków jako skryptu inline.
+  // Add conditions data as inline script.
   wp_add_inline_script('mws-admin-js', 'const initialConditions = ' . wp_json_encode($script_data['conditions']) . ';', 'before');
 }
 
@@ -67,19 +67,19 @@ function mws_register_settings_page()
 
 function mws_settings_page()
 {
-  // Najpierw ładujemy plik, który zawiera funkcję is_plugin_active()
+  // First, we load the file that contains the is_plugin_active() function
   if (!function_exists('is_plugin_active')) {
     include_once(ABSPATH . 'wp-admin/includes/plugin.php');
   }
 
-  // Sprawdzamy, czy WooCommerce jest aktywny
+  // Check if WooCommerce is active
   if (!is_plugin_active('woocommerce/woocommerce.php')) {
     echo '<div class="wrap"><h1>' . esc_html__('Stock Status Settings', 'wp-stock-director') . '</h1>';
     echo '<h2>' . esc_html__('This feature requires WooCommerce to be installed and active.', 'wp-stock-director') . '</h2></div>';
-    return; // Wczesne zakończenie, jeśli WooCommerce nie jest aktywny
+    return; // Early return if WooCommerce is not active
   }
 
-  // Jeśli WooCommerce jest aktywny, ładujemy ustawienia
+  // If WooCommerce is active, load the settings
   include plugin_dir_path(__FILE__) . 'admin/partials/settings-page.php';
 }
 
@@ -93,17 +93,15 @@ function wp_stock_director_load_textdomain()
 }
 
 
-// Obsługa AJAX do zapisu ustawień
+// AJAX handling for saving settings
 add_action('wp_ajax_save_conditions', 'mws_save_conditions');
 function mws_save_conditions()
 {
-  // Sprawdzamy nonce dla bezpieczeństwa
+  // Check nonce for security
   check_ajax_referer('mws_nonce', 'nonce');
 
-  // Pobieramy dane przesłane przez AJAX
+  // Get data sent via AJAX
   $conditions = isset($_POST['conditions']) ? json_decode(stripslashes($_POST['conditions']), true) : array();
-  //sanitize data
-
 
   //convert to array if it is string
   if (is_string($conditions)) {
@@ -121,28 +119,28 @@ function mws_save_conditions()
 
   if (update_option('mws_stock_conditions', $conditions)) {
     $saved_conditions = get_option('mws_stock_conditions');
-    // Zwracamy odpowiedź
+    // Return the response
     wp_send_json_success('Settings saved successfully.');
   } else {
-    // Obsłuż błąd, jeśli nie udało się zaktualizować danych
+    // Handle the error if failed to update the data
     wp_send_json_error('Failed to save settings.');
   }
 }
 
-//TODO: Look for better way to implement this function
+//TODO: Look for a better way to implement this function
 function mws_get_condition_message(
   $min,
   $max,
   $message
 ) {
   if (function_exists('icl_t')) {
-    // Dla WPML
+    // For WPML
     return icl_t('wp-stock-director', 'Condition Message ' . $min . '-' . $max, $message);
   } elseif (function_exists('pll__')) {
-    // Dla Polylang
+    // For Polylang
     return pll__($message);
   }
-  // Fallback dla sytuacji bez wtyczki do tłumaczeń
+  // Fallback for situations without translation plugin
   return $message;
 }
 
@@ -150,35 +148,35 @@ add_filter('woocommerce_get_availability_text', 'mws_custom_availability_text', 
 
 function mws_custom_availability_text($availability, $product)
 {
-  // Najpierw sprawdzamy, czy zarządzanie stanem magazynowym jest włączone i czy produkt jest na stanie
+  // First, we check if stock management is enabled and if the product is in stock
   if (!$product->managing_stock() || !$product->is_in_stock()) {
     return $availability;
   }
-  // Pobieramy zapisane warunki
+  // Get the saved conditions
   $saved_conditions = get_option('mws_stock_conditions', '[]');
-  // Dekodujemy JSON, jeśli to konieczne, sprawdź typ
+  // Decode JSON if necessary and check the type
   if (is_string($saved_conditions)) {
     $saved_conditions = json_decode($saved_conditions, true);
   }
 
 
-  // Jeśli nie ma zdefiniowanych warunków, zwracamy domyślną dostępność
+  // If no conditions are defined, return the default availability
   if (empty($saved_conditions)) {
     return $availability;
   }
 
-  // Pobieramy aktualny stan magazynowy produktu
+  // Get the current stock quantity of the product
   $stock_quantity = $product->get_stock_quantity();
 
-  // Iterujemy przez warunki, aby znaleźć pasujący zakres
+  // Iterate through the conditions to find a matching range
   foreach ($saved_conditions as $condition) {
     if ($stock_quantity >= $condition['minQuantity'] && $stock_quantity <= $condition['maxQuantity']) {
-      // Zwracamy przetłumaczony komunikat, jeśli zakres pasuje
+      // Return the translated message if the range matches
       return mws_get_condition_message($condition['minQuantity'], $condition['maxQuantity'], $condition['message']);
     }
   }
 
-  // Jeśli żaden warunek nie pasuje, zwracamy domyślną dostępność
+  // If no condition matches, return the default availability
   return $availability;
 }
 
@@ -186,7 +184,7 @@ function mws_register_strings_for_translation()
 {
   if (function_exists('pll_register_string')) {
     $saved_conditions = get_option('mws_stock_conditions', '[]');
-    // Dekodujemy JSON, jeśli to konieczne, sprawdź typ
+    // Decode JSON if necessary and check the type
     if (is_string($saved_conditions)) {
       $saved_conditions = json_decode($saved_conditions, true);
     }
@@ -210,7 +208,7 @@ function mws_register_strings_for_translation()
 
   if (function_exists('icl_register_string')) {
     $saved_conditions = get_option('mws_stock_conditions', '[]');
-    // Dekodujemy JSON, jeśli to konieczne, sprawdź typ
+    // Decode JSON if necessary and check the type
     if (is_string($saved_conditions)) {
       $saved_conditions = json_decode($saved_conditions, true);
     }

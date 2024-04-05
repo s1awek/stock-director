@@ -10,12 +10,13 @@ const app = createApp({
       message: ''
     });
 
+    // Watch for changes in conditions and update the new condition's minQuantity accordingly
     watch(conditions, (currentConditions) => {
       if (currentConditions.length > 0) {
         const lastCondition = currentConditions[currentConditions.length - 1];
         newCondition.value.minQuantity = lastCondition.maxQuantity;
       } else {
-        newCondition.value.minQuantity = 1; // Resetujemy do 1 jeśli nie ma żadnych warunków
+        newCondition.value.minQuantity = 1; // Reset to 1 if there are no conditions
       }
     }, { immediate: true });
     console.log(mwsData);
@@ -73,7 +74,7 @@ const app = createApp({
 
 
     const saveConditions = async () => {
-      // Wysyłanie danych do WordPressa przez AJAX
+      // Sending data to WordPress via AJAX
       try {
         const response = await fetch(mwsData.ajax_url, {
           method: 'POST',
@@ -95,14 +96,14 @@ const app = createApp({
         const responseData = await response.json();
 
         if (responseData.success) {
-          // Obsługa sukcesu
+          // Handle success
           console.log('Settings saved:', responseData);
         } else {
-          // Obsługa błędów związanych z WordPress
+          // Handle WordPress related errors
           console.error('Error from WP:', responseData);
         }
       } catch (error) {
-        // Obsługa błędów związanych z siecią
+        // Handle network errors
         console.error('Fetch error:', error);
       }
     }

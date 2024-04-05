@@ -1,5 +1,5 @@
 
-// Wszystkie importy na samej górze pliku
+// All imports at the top of the file
 import gulp from 'gulp';
 import dartSass from 'sass';
 import gulpSass from 'gulp-sass';
@@ -13,12 +13,12 @@ import sourcemaps from 'gulp-sourcemaps';
 import { deleteAsync } from 'del';
 import zip from 'gulp-zip';
 
-// Funkcja do czyszczenia katalogu dystrybucyjnego
+// Function to clean the distribution directory
 async function clean() {
   await deleteAsync(['dist/**', '!dist']);
 }
 
-// Funkcja do kopiowania niezbędnych plików do katalogu dystrybucyjnego
+// Function to copy necessary files to the distribution directory
 function copy() {
   return gulp.src([
     'admin/**/*',
@@ -26,25 +26,25 @@ function copy() {
     'languages/**/*',
     'wp-stock-director.php',
     'README.md',
-    '!src', // Wykluczamy katalog src
-    '!node_modules', // Wykluczamy katalog node_modules
-    '!admin/**/*.map', // Wykluczamy mapy źródłowe
-    '!public/**/*.map', // Wykluczamy mapy źródłowe
-    '!**/*.scss', // Wykluczamy pliki SCSS
-    '!**/*.cjs', // Wykluczamy pliki .cjs
-    // Dodaj tutaj inne pliki/katalogi do wykluczenia
+    '!src', // Exclude src directory
+    '!node_modules', // Exclude node_modules directory
+    '!admin/**/*.map', // Exclude source maps
+    '!public/**/*.map', // Exclude source maps
+    '!**/*.scss', // Exclude SCSS files
+    '!**/*.cjs', // Exclude .cjs files
+    // Add other files/directories to exclude here
   ], { base: '.' })
     .pipe(gulp.dest('dist/'));
 }
 
-// Funkcja do tworzenia archiwum zip z katalogu dystrybucyjnego
+// Function to create a zip archive from the distribution directory
 function zipFiles() {
   return gulp.src('dist/**/*')
     .pipe(zip('wp-stock-director.zip'))
     .pipe(gulp.dest('dist'));
 }
 
-// Kompilacja SCSS -> CSS dla Admin
+// Compilation of SCSS -> CSS for Admin
 function adminStyles() {
   return gulp.src('src/admin/scss/**/*.scss')
     .pipe(sourcemaps.init())
@@ -54,7 +54,7 @@ function adminStyles() {
     .pipe(gulp.dest('admin/css'));
 }
 
-// Minifikacja JS dla Admin
+// Minification of JS for Admin
 function adminScripts() {
   return gulp.src('src/admin/js/**/*.js')
     .pipe(sourcemaps.init())
@@ -64,7 +64,7 @@ function adminScripts() {
     .pipe(gulp.dest('admin/js'));
 }
 
-// Kompilacja SCSS -> CSS dla Public
+// Compilation of SCSS -> CSS for Public
 function publicStyles() {
   return gulp.src('src/public/scss/**/*.scss')
     .pipe(sourcemaps.init())
@@ -74,7 +74,7 @@ function publicStyles() {
     .pipe(gulp.dest('public/css'));
 }
 
-// Minifikacja JS dla Public
+// Minification of JS for Public
 function publicScripts() {
   return gulp.src('src/public/js/**/*.js')
     .pipe(sourcemaps.init())
@@ -84,13 +84,10 @@ function publicScripts() {
     .pipe(gulp.dest('public/js'));
 }
 
-// Zadanie do budowania wersji do publikacji
+// Task for building the distribution version
 const dist = gulp.series(clean, copy, zipFiles);
 
-// Eksportujemy nowe zadanie, aby było dostępne z linii komend
-
-
-// Nasłuchiwanie zmian
+// Watching for changes
 function watchFiles() {
   gulp.watch('src/admin/scss/**/*.scss', adminStyles);
   gulp.watch('src/admin/js/**/*.js', adminScripts);
@@ -98,9 +95,9 @@ function watchFiles() {
   gulp.watch('src/public/js/**/*.js', publicScripts);
 }
 
-// Eksport funkcji jako pojedynczych eksportów
+// Exporting functions as individual exports
 export { adminStyles, adminScripts, publicStyles, publicScripts, watchFiles, dist };
 
-// Domyślne zadanie Gulp
+// Default Gulp task
 const defaultTask = gulp.parallel(adminStyles, adminScripts, publicStyles, publicScripts, watchFiles);
 export default defaultTask;
