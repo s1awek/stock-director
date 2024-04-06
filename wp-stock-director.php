@@ -41,6 +41,7 @@ function mws_enqueue_scripts($hook)
     'ajax_url' => admin_url('admin-ajax.php'),
     'nonce' => wp_create_nonce('mws_nonce'),
     'conditions' => $saved_conditions, // Now it will be a proper PHP array.
+    'reloadMessage' => __('Are you sure you want to reload the page? All unsaved changes will be lost.', 'wp-stock-director'),
   );
   // Localize data (for AJAX settings and nonce).
   wp_localize_script('mws-admin-js', 'mwsData', $script_data);

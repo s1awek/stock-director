@@ -2,9 +2,90 @@
   display: flex;
   gap: 10px;
   margin-bottom: 10px;
+  padding-bottom: 20px;
   align-items: flex-end;
+  border-bottom: 2px solid #e5e5e5;
   label {
     display: flex;
     flex-direction: column;
+  }
+}
+
+.range-input {
+  width: 100px;
+}
+
+.wrap {
+  font-size: 16px;
+  h1 {
+    margin-bottom: 64px;
+  }
+}
+
+.btn {
+  min-height: 30px;
+  text-align: center;
+  padding: 6px 10px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-transform: uppercase;
+  font-size: 14px;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+  &.btn-primary {
+    background-color: #6e0000;
+    color: #fff;
+    border: 1px solid #9b1818;
+    padding: 10px 20px;
+    &:hover {
+      background-color: #fff;
+      color: #9b1818;
+    }
+  }
+  &.btn-secondary {
+    background-color: #ffffff;
+    color: #000ba5;
+    border: 1px solid #000875;
+    &:hover {
+      background-color: #000ba5;
+      color: #ffffff;
+    }
+  }
+}
+
+.conditions {
+  li {
+    max-width: 500px;
+    margin-bottom: 24px;
+    padding: 16px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+  }
+  &__item-inner {
+    display: flex;
+    align-items: center;
+    button {
+      margin-left: auto;
+    }
+    .value {
+      margin-right: 20px;
+      font-weight: bold;
+      &.message {
+        word-break: break-word;
+      }
+    }
+    .label {
+      margin-right: 4px;
+      font-weight: normal;
+      font-size: 14px;
+      color: #666666;
+      text-transform: uppercase;
+    }
   }
 }

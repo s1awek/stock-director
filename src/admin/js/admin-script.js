@@ -1,4 +1,4 @@
-const { createApp, ref, computed, watch, nextTick } = Vue;
+const { createApp, ref, computed, watch, nextTick, onMounted, onUnmounted } = Vue;
 
 const app = createApp({
   setup() {
@@ -9,9 +9,10 @@ const app = createApp({
       maxQuantity: null,
       message: ''
     });
-
+    const formModified = ref(false);
     // Watch for changes in conditions and update the new condition's minQuantity accordingly
     watch(conditions, (currentConditions) => {
+      formModified.value = true;
       if (currentConditions.length > 0) {
         const lastCondition = currentConditions[currentConditions.length - 1];
         newCondition.value.minQuantity = lastCondition.maxQuantity;
@@ -19,7 +20,8 @@ const app = createApp({
         newCondition.value.minQuantity = 1; // Reset to 1 if there are no conditions
       }
     }, { immediate: true });
-    console.log(mwsData);
+
+
     // Computed property to validate new condition
     const isValidNewCondition = computed(() => {
       const { minQuantity, maxQuantity, message } = newCondition.value;
@@ -74,6 +76,7 @@ const app = createApp({
 
 
     const saveConditions = async () => {
+
       // Sending data to WordPress via AJAX
       try {
         const response = await fetch(mwsData.ajax_url, {
@@ -97,16 +100,33 @@ const app = createApp({
 
         if (responseData.success) {
           // Handle success
-          console.log('Settings saved:', responseData);
+          console.log('Settings saved');
         } else {
           // Handle WordPress related errors
-          console.error('Error from WP:', responseData);
+          console.error('Error from WP');
         }
       } catch (error) {
         // Handle network errors
         console.error('Fetch error:', error);
       }
+      formModified.value = false; // Reset the formModified flag
     }
+    onMounted(() => {
+      window.addEventListener('beforeunload', handleBeforeUnload);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    });
+
+    function handleBeforeUnload(event) {
+      if (formModified.value) {
+        const message = mwsData.reloadMessage || 'You have unsaved changes. Are you sure you want to leave?';
+        event.returnValue = message; // Standard browsers (Mozilla, Chrome)
+        return message;
+      }
+    }
+
     // Expose the state and methods to the template
     return {
       conditions,

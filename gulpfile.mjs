@@ -58,7 +58,11 @@ function adminStyles() {
 function adminScripts() {
   return gulp.src('src/admin/js/**/*.js')
     .pipe(sourcemaps.init())
-    .pipe(terser())
+    .pipe(terser({
+      compress: {
+        drop_console: false,
+      }
+    }))
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('admin/js'));
@@ -78,7 +82,11 @@ function publicStyles() {
 function publicScripts() {
   return gulp.src('src/public/js/**/*.js')
     .pipe(sourcemaps.init())
-    .pipe(terser())
+    .pipe(terser({
+      compress: {
+        drop_console: false, // Zachowuje wywołania console.*
+      }
+    }))
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('.'))
     .pipe(gulp.dest('public/js'));
