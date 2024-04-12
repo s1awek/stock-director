@@ -19,10 +19,12 @@ async function clean() {
 }
 
 // Function to copy necessary files to the distribution directory
+
 function copy() {
   return gulp.src([
     'admin/**/*',
     'public/**/*',
+    'assets/**/*',
     'languages/**/*',
     'wp-stock-director.php',
     'README.md',
@@ -59,9 +61,8 @@ function adminScripts() {
   return gulp.src('src/admin/js/**/*.js')
     .pipe(sourcemaps.init())
     .pipe(terser({
-      compress: {
-        drop_console: false,
-      }
+      compress: false,
+      mangle: false,
     }))
     .pipe(rename({ suffix: '.min' }))
     .pipe(sourcemaps.write('.'))

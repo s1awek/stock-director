@@ -20,6 +20,12 @@
   h1 {
     margin-bottom: 64px;
   }
+  &__inner {
+    &.loading {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+  }
 }
 
 .btn {

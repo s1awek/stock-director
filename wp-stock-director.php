@@ -20,7 +20,8 @@ function mws_enqueue_scripts($hook)
   }
 
   // Enqueue Vue.js from a CDN for production use
-  wp_enqueue_script('vuejs', 'https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.min.js', array(), '3.4.21', true);
+  wp_register_script('vuejs', plugins_url('/assets/js/vue.global.js', __FILE__), array(), '3.4.21', true);
+  wp_enqueue_script('vuejs');
 
 
   // Enqueue custom admin CSS
@@ -120,6 +121,7 @@ function mws_save_conditions()
 
   if (update_option('mws_stock_conditions', $conditions)) {
     $saved_conditions = get_option('mws_stock_conditions');
+    mws_register_strings_for_translation();
     // Return the response
     wp_send_json_success('Settings saved successfully.');
   } else {
@@ -136,6 +138,7 @@ function mws_get_condition_message(
 ) {
   if (function_exists('icl_t')) {
     // For WPML
+    error_log('WPML');
     return icl_t('wp-stock-director', 'Condition Message ' . $min . '-' . $max, $message);
   } elseif (function_exists('pll__')) {
     // For Polylang
@@ -183,13 +186,13 @@ function mws_custom_availability_text($availability, $product)
 
 function mws_register_strings_for_translation()
 {
+
   if (function_exists('pll_register_string')) {
     $saved_conditions = get_option('mws_stock_conditions', '[]');
     // Decode JSON if necessary and check the type
     if (is_string($saved_conditions)) {
       $saved_conditions = json_decode($saved_conditions, true);
     }
-
     foreach ($saved_conditions as $condition) {
       if (!isset($condition['minQuantity']) || !isset($condition['maxQuantity']) || !isset($condition['message'])) {
         continue;
@@ -207,7 +210,7 @@ function mws_register_strings_for_translation()
     }
   }
 
-  if (function_exists('icl_register_string')) {
+  if (defined('ICL_SITEPRESS_VERSION')) {
     $saved_conditions = get_option('mws_stock_conditions', '[]');
     // Decode JSON if necessary and check the type
     if (is_string($saved_conditions)) {
@@ -221,13 +224,7 @@ function mws_register_strings_for_translation()
       $string_name = 'Condition Message ' . $condition['minQuantity'] . '-' . $condition['maxQuantity'];
       $string_value = $condition['message'];
 
-      // Check if the string is already registered
-      if (icl_t('wp-stock-director', $string_name) !== $string_name) {
-        continue; // Skip this iteration if the string is already registered
-      }
-
-      icl_register_string('wp-stock-director', $string_name, $string_value);
+      do_action('wpml_register_single_string', 'wp-stock-director', $string_name, $string_value);
     }
   }
 }
-add_action('init', 'mws_register_strings_for_translation');

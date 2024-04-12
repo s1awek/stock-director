@@ -4,12 +4,14 @@ const app = createApp({
   setup() {
     // Reactive references for conditions and a new condition form
     const conditions = ref(initialConditions || []);
+    const loading = ref(false);
+    const formModified = ref(false);
+    const conditionsChanged = ref(false);
     const newCondition = ref({
       minQuantity: 1,
       maxQuantity: null,
       message: ''
     });
-    const formModified = ref(false);
     // Watch for changes in conditions and update the new condition's minQuantity accordingly
     watch(conditions, (currentConditions) => {
       formModified.value = true;
@@ -53,7 +55,9 @@ const app = createApp({
         // Focus on the 'maxQuantity' field
         nextTick(() => {
           document.getElementById('maxQuantity').focus();
+          // Set the conditionsChanged flag to true
         });
+        conditionsChanged.value = true;
       }
     };
 
@@ -76,7 +80,7 @@ const app = createApp({
 
 
     const saveConditions = async () => {
-
+      loading.value = true;
       // Sending data to WordPress via AJAX
       try {
         const response = await fetch(mwsData.ajax_url, {
@@ -109,6 +113,8 @@ const app = createApp({
         // Handle network errors
         console.error('Fetch error:', error);
       }
+      loading.value = false;
+      conditionsChanged.value = false;
       formModified.value = false; // Reset the formModified flag
     }
     onMounted(() => {
@@ -134,7 +140,9 @@ const app = createApp({
       addCondition,
       removeCondition,
       saveConditions,
-      isValidNewCondition
+      isValidNewCondition,
+      loading,
+      conditionsChanged,
     };
   }
 });
