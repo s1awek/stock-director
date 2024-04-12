@@ -136,10 +136,9 @@ function mws_get_condition_message(
   $max,
   $message
 ) {
-  if (function_exists('icl_t')) {
+  if (defined('ICL_SITEPRESS_VERSION')) {
     // For WPML
-    error_log('WPML');
-    return icl_t('wp-stock-director', 'Condition Message ' . $min . '-' . $max, $message);
+    return __($message, 'wp-stock-director');
   } elseif (function_exists('pll__')) {
     // For Polylang
     return pll__($message);
