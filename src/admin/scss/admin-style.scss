@@ -45,21 +45,21 @@
     opacity: 0.5;
   }
   &.btn-primary {
-    background-color: #6e0000;
+    background-color: #aa3939;
     color: #fff;
-    border: 1px solid #9b1818;
+    border: 1px solid #9f2020;
     padding: 10px 20px;
     &:hover {
       background-color: #fff;
-      color: #9b1818;
+      color: #9f2020;
     }
   }
   &.btn-secondary {
     background-color: #ffffff;
-    color: #000ba5;
-    border: 1px solid #000875;
+    color: #226666;
+    border: 1px solid #065959;
     &:hover {
-      background-color: #000ba5;
+      background-color: #226666;
       color: #ffffff;
     }
   }
@@ -67,7 +67,7 @@
 
 .conditions {
   li {
-    max-width: 500px;
+    max-width: 800px;
     margin-bottom: 24px;
     padding: 16px;
     border: 1px solid #e5e5e5;
@@ -78,6 +78,7 @@
     align-items: center;
     button {
       margin-left: auto;
+      flex-shrink: 0;
     }
     .value {
       margin-right: 20px;
@@ -94,4 +95,31 @@
       text-transform: uppercase;
     }
   }
+}
+
+.info {
+  position: relative;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  color: #666666;
+  font-size: 14px;
+  border-left: 5px solid #226666;
+  a {
+    color: #226666;
+    text-decoration: underline;
+  }
+}
+
+.error {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #e5e5e5;
+  border-radius: 5px;
+  background-color: #f5f5f5;
+  color: #aa3939;
+  font-size: 14px;
+  border-left: 5px solid #aa3939;
 }

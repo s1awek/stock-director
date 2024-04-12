@@ -1,1 +1,77 @@
- 
+# Copyright (C) 2024 Sławomir Kasprzak
+# This file is distributed under the same license as the WP Stock Director plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: WP Stock Director 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-stock-director\n"
+"Last-Translator: Sławomir Kasprzak <hello@wellmade.online>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2024-04-12T15:39:31+02:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.7.1\n"
+"X-Domain: wp-stock-director\n"
+
+#. Plugin Name of the plugin
+msgid "WP Stock Director"
+msgstr ""
+
+#. Description of the plugin
+msgid "Changes the way stock statuses are displayed in WooCommerce."
+msgstr ""
+
+#: admin/partials/settings-page.php:3
+#: wp-stock-director.php:60
+#: wp-stock-director.php:79
+msgid "Stock Status Settings"
+msgstr ""
+
+#: admin/partials/settings-page.php:4
+msgid "Add new range"
+msgstr ""
+
+#: admin/partials/settings-page.php:8
+msgid "Stock FROM"
+msgstr ""
+
+#: admin/partials/settings-page.php:13
+msgid "Stock TO"
+msgstr ""
+
+#: admin/partials/settings-page.php:18
+msgid "Stock Message"
+msgstr ""
+
+#: admin/partials/settings-page.php:24
+msgid "Add"
+msgstr ""
+
+#: admin/partials/settings-page.php:33
+msgid "Delete Range"
+msgstr ""
+
+#: admin/partials/settings-page.php:39
+msgid "Inventory conditions updated"
+msgstr ""
+
+#: admin/partials/settings-page.php:40
+msgid "Failed to save settings, please try again later"
+msgstr ""
+
+#: admin/partials/settings-page.php:42
+msgid "Update Inventory Conditions"
+msgstr ""
+
+#: wp-stock-director.php:45
+msgid "Are you sure you want to reload the page? All unsaved changes will be lost."
+msgstr ""
+
+#: wp-stock-director.php:61
+msgid "Stock Status"
+msgstr ""
+
+#: wp-stock-director.php:80
+msgid "This feature requires WooCommerce to be installed and active."
+msgstr ""

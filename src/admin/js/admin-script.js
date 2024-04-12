@@ -7,6 +7,8 @@ const app = createApp({
     const loading = ref(false);
     const formModified = ref(false);
     const conditionsChanged = ref(false);
+    const settingsSaved = ref(false);
+    const settingsSaveError = ref(false);
     const newCondition = ref({
       minQuantity: 1,
       maxQuantity: null,
@@ -14,10 +16,10 @@ const app = createApp({
     });
     // Watch for changes in conditions and update the new condition's minQuantity accordingly
     watch(conditions, (currentConditions) => {
-      formModified.value = true;
       if (currentConditions.length > 0) {
         const lastCondition = currentConditions[currentConditions.length - 1];
         newCondition.value.minQuantity = lastCondition.maxQuantity;
+        formModified.value = true; // Set the formModified flag to true
       } else {
         newCondition.value.minQuantity = 1; // Reset to 1 if there are no conditions
       }
@@ -76,11 +78,14 @@ const app = createApp({
           conditions.value[index].minQuantity = conditions.value[index - 1].maxQuantity;
         }
       }
+      conditionsChanged.value = true;
     };
 
 
     const saveConditions = async () => {
       loading.value = true;
+      settingsSaved.value = false;
+      settingsSaveError.value = false;
       // Sending data to WordPress via AJAX
       try {
         const response = await fetch(mwsData.ajax_url, {
@@ -105,13 +110,16 @@ const app = createApp({
         if (responseData.success) {
           // Handle success
           console.log('Settings saved');
+          settingsSaved.value = true;
         } else {
           // Handle WordPress related errors
           console.error('Error from WP');
+          settingsSaveError.value = true;
         }
       } catch (error) {
         // Handle network errors
         console.error('Fetch error:', error);
+        settingsSaveError.value = true;
       }
       loading.value = false;
       conditionsChanged.value = false;
@@ -126,6 +134,7 @@ const app = createApp({
     });
 
     function handleBeforeUnload(event) {
+      // Check if the form has been modified
       if (formModified.value) {
         const message = mwsData.reloadMessage || 'You have unsaved changes. Are you sure you want to leave?';
         event.returnValue = message; // Standard browsers (Mozilla, Chrome)
@@ -143,6 +152,8 @@ const app = createApp({
       isValidNewCondition,
       loading,
       conditionsChanged,
+      settingsSaved,
+      settingsSaveError,
     };
   }
 });

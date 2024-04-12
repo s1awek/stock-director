@@ -15,12 +15,12 @@ add_action('admin_enqueue_scripts', 'mws_enqueue_scripts');
 
 function mws_enqueue_scripts($hook)
 {
-  if ('toplevel_page_mws-settings' !== $hook) {
+  if ('toplevel_page_wp-stock-director-settings' !== $hook) {
     return;
   }
 
   // Enqueue Vue.js from a CDN for production use
-  wp_register_script('vuejs', plugins_url('/assets/js/vue.global.js', __FILE__), array(), '3.4.21', true);
+  wp_register_script('vuejs', plugins_url('/assets/js/vue.global.prod.min.js', __FILE__), array(), '3.4.21', true);
   wp_enqueue_script('vuejs');
 
 
@@ -60,14 +60,14 @@ function mws_register_settings_page()
     __('Stock Status Settings', 'wp-stock-director'), // Page title
     __('Stock Status', 'wp-stock-director'), // Menu title
     'manage_options', // Capability
-    'mws-settings', // Menu slug
-    'mws_settings_page', // Function to display page content
-    null, // Icon
-    6 // Position in menu
+    'wp-stock-director-settings', // Menu slug
+    'wp_stock_director_settings_page', // Function to display page content
+    'dashicons-store', // Icon
+    7 // Position in menu
   );
 }
 
-function mws_settings_page()
+function wp_stock_director_settings_page()
 {
   // First, we load the file that contains the is_plugin_active() function
   if (!function_exists('is_plugin_active')) {
@@ -87,12 +87,12 @@ function mws_settings_page()
 
 
 // Load plugin text domain for translations
-add_action('init', 'wp_stock_director_load_textdomain');
-
 function wp_stock_director_load_textdomain()
 {
-  load_plugin_textdomain('wp-stock-director', false, dirname(plugin_basename(__FILE__)) . '/languages/');
+  load_plugin_textdomain('wp-stock-director', false, basename(dirname(__FILE__)) . '/languages/');
 }
+add_action('plugins_loaded', 'wp_stock_director_load_textdomain');
+
 
 
 // AJAX handling for saving settings
@@ -228,3 +228,24 @@ function mws_register_strings_for_translation()
     }
   }
 }
+
+
+/**
+ * Add settings link to plugin actions
+ *
+ * @param  array  $plugin_actions
+ * @param  string $plugin_file
+ * @since  1.0
+ * @return array
+ */
+function add_plugin_link($plugin_actions, $plugin_file)
+{
+
+  $new_actions = array();
+  if (basename(plugin_dir_path(__FILE__)) . '/wp-stock-director.php' === $plugin_file) {
+    $new_actions['cl_settings'] = sprintf(__('<a href="%s">Settings</a>', 'comment-limiter'), esc_url(admin_url('options-general.php?page=wp-stock-director-settings')));
+  }
+
+  return array_merge($new_actions, $plugin_actions);
+}
+add_filter('plugin_action_links', 'add_plugin_link', 10, 2);

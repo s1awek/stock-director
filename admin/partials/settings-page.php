@@ -5,12 +5,12 @@
     <div class="conditions-wrap">
       <!-- Labels and fields -->
       <label for="minQuantity">
-        <span><?php echo esc_html_e('Start Quantity', 'wp-stock-director'); ?></span>
+        <span><?php echo esc_html_e('Stock FROM', 'wp-stock-director'); ?></span>
         <input type="number" class="range-input" v-model="newCondition.minQuantity" readonly>
       </label>
 
       <label for="maxQuantity">
-        <span><?php echo esc_html_e('End Quantity', 'wp-stock-director'); ?></span>
+        <span><?php echo esc_html_e('Stock TO', 'wp-stock-director'); ?></span>
         <input type="number" class="range-input" v-model="newCondition.maxQuantity" id="maxQuantity">
       </label>
 
@@ -36,6 +36,8 @@
     </ul>
 
     <!-- Save button -->
+    <p class="info" v-if="settingsSaved"><?php echo esc_html_e('Inventory conditions updated', 'wp-stock-director'); ?></p>
+    <p class="error" v-if="settingsSaveError"><?php echo esc_html_e('Failed to save settings, please try again later', 'wp-stock-director'); ?></p>
     <button class="btn btn-primary" :disabled="loading || !conditionsChanged" @click="saveConditions">
       <?php echo esc_html_e('Update Inventory Conditions', 'wp-stock-director'); ?>
     </button>

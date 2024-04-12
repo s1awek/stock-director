@@ -17,11 +17,11 @@ Online store owners may prefer not to show exact stock quantities to their custo
 
 1. Upload the `wp-stock-director` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
-3. Navigate to the 'Stock Status Settings' under the WooCommerce menu to configure your stock status messages.
+3. Navigate to the 'Stock Status' to configure your stock status messages.
 
 ## Configuration
 
-After installation, go to WooCommerce > Stock Status Settings in your WordPress dashboard. Here, you can:
+After installation, 'Stock Status' in your WordPress dashboard. Here, you can:
 
 - Add new stock quantity ranges.
 - Set the corresponding stock status message for each range.
