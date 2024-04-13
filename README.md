@@ -49,4 +49,4 @@ A: If the stock level of a product falls outside your defined ranges, the defaul
 
 ## License
 
-WP Stock Director is open-source software licensed under the [GPLv2 license](#).
+WP Stock Director is open-source software licensed under the [GPLv2 license](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses).
