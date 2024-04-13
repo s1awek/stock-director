@@ -138,7 +138,7 @@ function mws_get_condition_message(
 ) {
   if (defined('ICL_SITEPRESS_VERSION')) {
     // For WPML
-    return __($message, 'stock-director');
+    return apply_filters('wpml_translate_single_string', $message, 'stock-director', $message);
   } elseif (function_exists('pll__')) {
     // For Polylang
     return pll__($message);
