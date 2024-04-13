@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Plugin Name: WP Stock Director
+ * Plugin Name: Stock Director
  * Description: Changes the way stock statuses are displayed in WooCommerce.
  * Version: 1.0
  * Author: Sławomir Kasprzak
  * Author URI: https://wellmade.online
- * Text Domain: wp-stock-director
+ * Text Domain: stock-director
  * Domain Path: /languages
  */
 
@@ -15,7 +15,7 @@ add_action('admin_enqueue_scripts', 'mws_enqueue_scripts');
 
 function mws_enqueue_scripts($hook)
 {
-  if ('toplevel_page_wp-stock-director-settings' !== $hook) {
+  if ('toplevel_page_stock-director-settings' !== $hook) {
     return;
   }
 
@@ -42,7 +42,7 @@ function mws_enqueue_scripts($hook)
     'ajax_url' => admin_url('admin-ajax.php'),
     'nonce' => wp_create_nonce('mws_nonce'),
     'conditions' => $saved_conditions, // Now it will be a proper PHP array.
-    'reloadMessage' => __('Are you sure you want to reload the page? All unsaved changes will be lost.', 'wp-stock-director'),
+    'reloadMessage' => __('Are you sure you want to reload the page? All unsaved changes will be lost.', 'stock-director'),
   );
   // Localize data (for AJAX settings and nonce).
   wp_localize_script('mws-admin-js', 'mwsData', $script_data);
@@ -57,10 +57,10 @@ add_action('admin_menu', 'mws_register_settings_page');
 function mws_register_settings_page()
 {
   add_menu_page(
-    __('Stock Status Settings', 'wp-stock-director'), // Page title
-    __('Stock Status', 'wp-stock-director'), // Menu title
+    __('Stock Status Settings', 'stock-director'), // Page title
+    __('Stock Status', 'stock-director'), // Menu title
     'manage_options', // Capability
-    'wp-stock-director-settings', // Menu slug
+    'stock-director-settings', // Menu slug
     'wp_stock_director_settings_page', // Function to display page content
     'dashicons-store', // Icon
     7 // Position in menu
@@ -76,8 +76,8 @@ function wp_stock_director_settings_page()
 
   // Check if WooCommerce is active
   if (!is_plugin_active('woocommerce/woocommerce.php')) {
-    echo '<div class="wrap"><h1>' . esc_html__('Stock Status Settings', 'wp-stock-director') . '</h1>';
-    echo '<h2>' . esc_html__('This feature requires WooCommerce to be installed and active.', 'wp-stock-director') . '</h2></div>';
+    echo '<div class="wrap"><h1>' . esc_html__('Stock Status Settings', 'stock-director') . '</h1>';
+    echo '<h2>' . esc_html__('This feature requires WooCommerce to be installed and active.', 'stock-director') . '</h2></div>';
     return; // Early return if WooCommerce is not active
   }
 
@@ -89,7 +89,7 @@ function wp_stock_director_settings_page()
 // Load plugin text domain for translations
 function wp_stock_director_load_textdomain()
 {
-  load_plugin_textdomain('wp-stock-director', false, basename(dirname(__FILE__)) . '/languages/');
+  load_plugin_textdomain('stock-director', false, basename(dirname(__FILE__)) . '/languages/');
 }
 add_action('plugins_loaded', 'wp_stock_director_load_textdomain');
 
@@ -138,7 +138,7 @@ function mws_get_condition_message(
 ) {
   if (defined('ICL_SITEPRESS_VERSION')) {
     // For WPML
-    return __($message, 'wp-stock-director');
+    return __($message, 'stock-director');
   } elseif (function_exists('pll__')) {
     // For Polylang
     return pll__($message);
@@ -205,7 +205,7 @@ function mws_register_strings_for_translation()
         continue; // Skip this iteration if the string is already registered
       }
 
-      pll_register_string($string_name, $string_value, 'wp-stock-director', true);
+      pll_register_string($string_name, $string_value, 'stock-director', true);
     }
   }
 
@@ -223,7 +223,7 @@ function mws_register_strings_for_translation()
       $string_name = 'Condition Message ' . $condition['minQuantity'] . '-' . $condition['maxQuantity'];
       $string_value = $condition['message'];
 
-      do_action('wpml_register_single_string', 'wp-stock-director', $string_name, $string_value);
+      do_action('wpml_register_single_string', 'stock-director', $string_name, $string_value);
     }
   }
 }
@@ -241,8 +241,8 @@ function add_plugin_link($plugin_actions, $plugin_file)
 {
 
   $new_actions = array();
-  if (basename(plugin_dir_path(__FILE__)) . '/wp-stock-director.php' === $plugin_file) {
-    $new_actions['cl_settings'] = sprintf(__('<a href="%s">Settings</a>', 'comment-limiter'), esc_url(admin_url('options-general.php?page=wp-stock-director-settings')));
+  if (basename(plugin_dir_path(__FILE__)) . '/stock-director.php' === $plugin_file) {
+    $new_actions['cl_settings'] = sprintf(__('<a href="%s">Settings</a>', 'comment-limiter'), esc_url(admin_url('options-general.php?page=stock-director-settings')));
   }
 
   return array_merge($new_actions, $plugin_actions);

@@ -158,4 +158,4 @@ const app = createApp({
   }
 });
 
-app.mount('#wp-stock-director-settings');
+app.mount('#stock-director-settings');

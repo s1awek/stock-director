@@ -26,7 +26,7 @@ function copy() {
     'public/**/*',
     'assets/**/*',
     'languages/**/*',
-    'wp-stock-director.php',
+    'stock-director.php',
     'README.md',
     '!src', // Exclude src directory
     '!node_modules', // Exclude node_modules directory
@@ -42,7 +42,7 @@ function copy() {
 // Function to create a zip archive from the distribution directory
 function zipFiles() {
   return gulp.src('dist/**/*')
-    .pipe(zip('wp-stock-director.zip'))
+    .pipe(zip('stock-director.zip'))
     .pipe(gulp.dest('dist'));
 }
 

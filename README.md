@@ -1,10 +1,10 @@
-# WP Stock Director
+# Stock Director
 
-WP Stock Director is a WooCommerce extension that enhances the way stock levels are displayed on your e-commerce store. It replaces the default numeric stock quantity with customizable stock status messages.
+Stock Director is a WooCommerce extension that enhances the way stock levels are displayed on your e-commerce store. It replaces the default numeric stock quantity with customizable stock status messages.
 
 ## Description
 
-Online store owners may prefer not to show exact stock quantities to their customers. WP Stock Director allows you to define custom stock status messages like "In Stock", "Running Low", or "Out of Stock" based on the quantity ranges you set. This provides a better shopping experience by keeping stock levels clear and understandable for customers.
+Online store owners may prefer not to show exact stock quantities to their customers. Stock Director allows you to define custom stock status messages like "In Stock", "Running Low", or "Out of Stock" based on the quantity ranges you set. This provides a better shopping experience by keeping stock levels clear and understandable for customers.
 
 ## Features
 
@@ -15,7 +15,7 @@ Online store owners may prefer not to show exact stock quantities to their custo
 
 ## Installation
 
-1. Upload the `wp-stock-director` folder to the `/wp-content/plugins/` directory.
+1. Upload the `stock-director` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress.
 3. Navigate to the 'Stock Status' to configure your stock status messages.
 
@@ -31,7 +31,7 @@ After installation, 'Stock Status' in your WordPress dashboard. Here, you can:
 
 **Q: Do I need WooCommerce to use this plugin?**
 
-A: Yes, WP Stock Director is an extension for WooCommerce and requires WooCommerce to be installed and activated.
+A: Yes, WStock Director is an extension for WooCommerce and requires WooCommerce to be installed and activated.
 
 **Q: Can I translate the stock status messages?**
 
@@ -53,8 +53,8 @@ For plugin support, please visit the [support forum](#) or [contact me directly]
 
 ## Contribution
 
-Contributions to WP Stock Director are welcome. Please visit our [GitHub repository](https://github.com/s1awek/wp-stock-director) to submit pull requests or feature suggestions.
+Contributions to Stock Director are welcome. Please visit our [GitHub repository](https://github.com/s1awek/stock-director) to submit pull requests or feature suggestions.
 
 ## License
 
-WP Stock Director is open-source software licensed under the [GPLv2 license](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses).
+Stock Director is open-source software licensed under the [GPLv2 license](https://www.gnu.org/licenses/license-list.html#GPLCompatibleLicenses).

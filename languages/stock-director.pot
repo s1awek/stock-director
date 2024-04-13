@@ -1,9 +1,9 @@
 # Copyright (C) 2024 Sławomir Kasprzak
-# This file is distributed under the same license as the WP Stock Director plugin.
+# This file is distributed under the same license as the Stock Director plugin.
 msgid ""
 msgstr ""
-"Project-Id-Version: WP Stock Director 1.0\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wp-stock-director\n"
+"Project-Id-Version: Stock Director 1.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/stock-director\n"
 "Last-Translator: Sławomir Kasprzak <hello@wellmade.online>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -12,10 +12,10 @@ msgstr ""
 "POT-Creation-Date: 2024-04-12T15:39:31+02:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.7.1\n"
-"X-Domain: wp-stock-director\n"
+"X-Domain: stock-director\n"
 
 #. Plugin Name of the plugin
-msgid "WP Stock Director"
+msgid "Stock Director"
 msgstr ""
 
 #. Description of the plugin
@@ -23,8 +23,8 @@ msgid "Changes the way stock statuses are displayed in WooCommerce."
 msgstr ""
 
 #: admin/partials/settings-page.php:3
-#: wp-stock-director.php:60
-#: wp-stock-director.php:79
+#: stock-director.php:60
+#: stock-director.php:79
 msgid "Stock Status Settings"
 msgstr ""
 
@@ -64,14 +64,14 @@ msgstr ""
 msgid "Update Inventory Conditions"
 msgstr ""
 
-#: wp-stock-director.php:45
+#: stock-director.php:45
 msgid "Are you sure you want to reload the page? All unsaved changes will be lost."
 msgstr ""
 
-#: wp-stock-director.php:61
+#: stock-director.php:61
 msgid "Stock Status"
 msgstr ""
 
-#: wp-stock-director.php:80
+#: stock-director.php:80
 msgid "This feature requires WooCommerce to be installed and active."
 msgstr ""
