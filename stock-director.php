@@ -3,7 +3,7 @@
 /**
  * Plugin Name: Stock Director
  * Description: Changes the way stock statuses are displayed in WooCommerce.
- * Version: 1.0
+ * Version: 1.0.0
  * Author: Sławomir Kasprzak
  * Author URI: https://wellmade.online
  * Text Domain: stock-director
@@ -25,7 +25,7 @@ function mws_enqueue_scripts($hook)
 
 
   // Enqueue custom admin CSS
-  wp_enqueue_style('mws-admin-css', plugins_url('admin/css/admin-style.css', __FILE__));
+  wp_enqueue_style('mws-admin-css', plugins_url('admin/css/admin-style.css', __FILE__), array(), '1.0.0');
 
   // Get saved conditions and decode JSON if necessary.
   $saved_conditions = get_option('mws_stock_conditions', '[]');

@@ -1,5 +1,7 @@
 # Stock Director
 
+**Current Stable Version: 1.0.0**
+
 Stock Director is a WooCommerce extension that enhances the way stock levels are displayed on your e-commerce store. It replaces the default numeric stock quantity with customizable stock status messages.
 
 ## Description
