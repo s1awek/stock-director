@@ -47,14 +47,6 @@ A: If the stock level of a product falls outside your defined ranges, the defaul
 
 - Initial release: Custom stock status messages based on quantity ranges.
 
-## Support
-
-For plugin support, please visit the [support forum](#) or [contact us directly](#).
-
-## Contribution
-
-Contributions to WP Stock Director are welcome. Please visit our [GitHub repository](#) to submit pull requests or feature suggestions.
-
 ## License
 
 WP Stock Director is open-source software licensed under the [GPLv2 license](#).
