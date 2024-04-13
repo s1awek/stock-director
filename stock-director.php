@@ -242,8 +242,12 @@ function add_plugin_link($plugin_actions, $plugin_file)
 
   $new_actions = array();
   if (basename(plugin_dir_path(__FILE__)) . '/stock-director.php' === $plugin_file) {
-    $new_actions['cl_settings'] = sprintf(__('<a href="%s">Settings</a>', 'comment-limiter'), esc_url(admin_url('options-general.php?page=stock-director-settings')));
+    // translators: This translates the word "Settings" in the link.
+    $settings_text = __('Settings', 'stock-director');
+    $settings_url = esc_url(admin_url('options-general.php?page=stock-director-settings'));
+    $new_actions['cl_settings'] = sprintf('<a href="%s">%s</a>', $settings_url, $settings_text);
   }
+
 
   return array_merge($new_actions, $plugin_actions);
 }
