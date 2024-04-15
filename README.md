@@ -1,8 +1,10 @@
 # Stock Director
 
-**Current Stable Version: 1.0.0**
-
 Stock Director is a WooCommerce extension that enhances the way stock levels are displayed on your e-commerce store. It replaces the default numeric stock quantity with customizable stock status messages.
+
+**Note to Users:**
+
+Before leaving a low rating, we kindly ask that you review our Frequently Asked Questions (FAQ) section. Many common issues and inquiries are addressed there, and it might provide the quick solution you are looking for. If your concern is not covered in the FAQ, please feel free to reach out to our support team. We are here to help and ensure your experience with Stock Director is positive! Thank you for your understanding and cooperation.
 
 ## Description
 
@@ -31,6 +33,10 @@ After installation, 'Stock Status' in your WordPress dashboard. Here, you can:
 
 ## Frequently Asked Questions
 
+**Q: Does my theme need specific features to display the custom stock status messages?**
+
+A: Yes, for the custom stock status messages to be displayed correctly, your theme must either support displaying stock quantities or have a setting that allows stock quantities to be displayed. Some themes might not show stock information by default or at all. It's important to ensure that your theme is compatible with this feature or to choose a theme that supports or can be customized to display stock quantities, to fully utilize Stock Director's capabilities.
+
 **Q: Do I need WooCommerce to use this plugin?**
 
 A: Yes, Stock Director is an extension for WooCommerce and requires WooCommerce to be installed and activated.
@@ -46,6 +52,8 @@ A: If the stock level of a product falls outside your defined ranges, the defaul
 **Q: Why do I need to set up stock management for each product?**
 
 A: Setting up stock management for each product is essential because the plugin relies on the defined stock quantity ranges to display the correct stock status messages. Without proper stock level settings, the plugin cannot function as intended and will default to generic WooCommerce statuses.
+
+**Current Stable Version: 1.0.0**
 
 ## Changelog
 
