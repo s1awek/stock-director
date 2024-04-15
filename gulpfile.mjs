@@ -27,6 +27,7 @@ function copy() {
     'assets/**/*',
     'languages/**/*',
     'stock-director.php',
+    'readme.txt',
     'README.md',
     '!src', // Exclude src directory
     '!node_modules', // Exclude node_modules directory
