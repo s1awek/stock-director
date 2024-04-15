@@ -33,7 +33,7 @@ After installation, 'Stock Status' in your WordPress dashboard. Here, you can:
 
 **Q: Do I need WooCommerce to use this plugin?**
 
-A: Yes, WStock Director is an extension for WooCommerce and requires WooCommerce to be installed and activated.
+A: Yes, Stock Director is an extension for WooCommerce and requires WooCommerce to be installed and activated.
 
 **Q: Can I translate the stock status messages?**
 
@@ -42,6 +42,10 @@ A: Yes, the plugin is compatible with WPML and Polylang, allowing you to transla
 **Q: What happens if a product's stock level does not fit into any defined range?**
 
 A: If the stock level of a product falls outside your defined ranges, the default WooCommerce stock status will be displayed.
+
+**Q: Why do I need to set up stock management for each product?**
+
+A: Setting up stock management for each product is essential because the plugin relies on the defined stock quantity ranges to display the correct stock status messages. Without proper stock level settings, the plugin cannot function as intended and will default to generic WooCommerce statuses.
 
 ## Changelog
 
